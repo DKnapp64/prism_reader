@@ -1,13 +1,18 @@
 """module for the connection to the PRISM Oregon State FTP server"""
 
 import datetime as dt
+import logging
 import requests
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import attrs
 
 URL_DAILY = "https://ftp.prism.oregonstate.edu/daily" 
 
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def is_downloadable(url: str):
     """Simple function to test is URL is downloadable"""
@@ -29,8 +34,12 @@ class Downloader:
         for param in parameters:
             file_name = f"PRISM_{param}_stable_4kmD2_{date.isoformat().replace('-', '')}_bil.zip"
             file_url = f"{URL_DAILY}/{param}/{date.year}/{file_name}"
-            if is_downloadable(file_url):
-                r = requests.get(file_url, allow_redirects=True, timeout=10)
-                zip_file = r.content()
+            if not is_downloadable(file_url):
+                logger.info("%s is not downloadable", file_url)
+                continue
+            r = requests.get(file_url, allow_redirects=True, timeout=10)
+            with TemporaryDirectory() as tmpdir:
+                with open(Path(tmpdir).joinpath(file_name), 'wb') as fp:
+                    fp.write(r.content)
 
 

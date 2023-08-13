@@ -9,6 +9,7 @@ packages = [{include = "smap_reader"}]
 [tool.poetry.dependencies]
 python = "^3.8"
 requests = "^2.31.0"
+attrs = "^23.1.0"
 
 
 [build-system]
