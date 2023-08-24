@@ -2,6 +2,7 @@
 
 import datetime as dt
 import os
+from pathlib import Path
 
 from unittest import mock
 from prism_reader.downloader import Downloader
@@ -17,4 +18,5 @@ def mock_requests_get() -> bytes:
 def test_downloader():
     """test downloader"""
     downloader = Downloader()
-    downloader.download_date(dt.date(2023, 8, 1))
+    local_file = downloader.download_date(dt.date(2023, 8, 1))
+    assert local_file == Path("test_file.zip")

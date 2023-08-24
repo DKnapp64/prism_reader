@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "smap-reader"
+name = "prism-reader"
 version = "0.1.0"
 description = ""
-authors = ["DKnapp64 <dknapp4@asu.edu>"]
+authors = ["DKnapp64 <dknapp64@gmail.com>"]
 readme = "README.md"
-packages = [{include = "smap_reader"}]
+packages = [{include = "prism_reader"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
