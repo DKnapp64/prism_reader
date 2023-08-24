@@ -1,10 +1,10 @@
 """module for the connection to the PRISM Oregon State FTP server"""
 
+from pathlib import Path
+
 import datetime as dt
 import logging
 import requests
-from pathlib import Path
-from tempfile import TemporaryDirectory
 
 import attrs
 
@@ -38,8 +38,6 @@ class Downloader:
                 logger.info("%s is not downloadable", file_url)
                 continue
             r = requests.get(file_url, allow_redirects=True, timeout=10)
-            with TemporaryDirectory() as tmpdir:
-                with open(Path(tmpdir).joinpath(file_name), 'wb') as fp:
-                    fp.write(r.content)
-
-
+            with open(file_name, 'wb') as fp:
+                fp.write(r.content)
+            return(Path(file_name))
